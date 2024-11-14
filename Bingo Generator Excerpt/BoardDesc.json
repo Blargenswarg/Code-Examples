@@ -1,0 +1,80 @@
+[
+	[
+		{"Category": "LegacyDungeons"}
+	],
+	[
+		{"Chance": 63, "Category": "LegacyDungeons"},
+		{"Chance": 25, "Category": "LegacyMisc"}, 
+		{"Chance": 12, "Category": "LandmarkDungeons"}
+	],
+	[
+		{"Chance": 30, "Category": "BossesLegacyDungeonFinal", "ChallengeOnly": true},
+		{"Chance": 25, "Category": "Location"},
+		{"Chance": 45, "Category": "LandmarkDungeons"}
+	],
+	[
+		{"Chance": 55, "Category": "Attributes"},
+		{"Chance": 15, "Category": "RuneLevel", "PreventCategoryReplacingAny": true}, 
+		{"Chance": 25, "Category": "LegacyDungeonSpecific"},
+		{"Chance":  5, "Category": "Any"}
+	],
+	[
+		{"Chance": 55, "Category": "Attributes"},
+		{"Chance": 30, "Category": "RuneCollection", "PreventCategoryReplacingAny": true}, 
+		{"Chance": 15, "Category": "Any"}
+	],
+	[
+		{"Chance": 40, "Category": "GreatRune"},
+		{"Chance": 35, "Category": "WeaponLevel"},
+		{"Chance": 20, "Category": "PureChallengeGoal"},
+		{"Chance":  5, "Category": "Any"}
+	],
+	[
+		{"Chance": 30, "Category": "GreatRune"},
+		{"Chance": 35, "Category": "Progression"}, 
+		{"Chance": 35, "Category": "Any"}
+	],
+	[
+		{"Category": "MinorDungeon"}
+	],
+	[
+		{"Chance": 60, "Category": "MinorDungeon", "RequiredTiers": [2]},
+		{"Chance": 20, "Category": "MinorDungeon"},
+		{"Chance": 15, "Category": "Any"},
+		{"Chance":  5, "Category": "BossesMisc"}
+	],
+	[
+		{"Chance": 35, "Category": "BossesMinorDungeon", "ChallengeOnly": true},
+		{"Chance": 25, "Category": "BossesMisc", 		 "ChallengeOnly": true},
+		{"Chance": 15, "Category": "BossesEvergaol",     "ChallengeOnly": true},
+		{"Chance": 25, "Category": "EvergaolsSpecific",  "ChallengeOnly": true}
+	],
+	[
+		{"Chance": 65, "Category": "MultipleMinorDungeons"},
+		{"Chance": 35, "Category": "Any"}
+	],
+	[
+		{"Chance": 25, "Category": "BossesOverworld"},
+		{"Chance": 25, "Category": "BossesUnderworld"},
+		{"Chance": 50, "Category": "Any"}
+	],
+	[
+		{"Chance": 60, "Category": "Underworld"},
+		{"Chance": 15, "Category": "Any"},
+		{"Chance": 25, "Category": "Merchants"}
+	],
+	[
+		{"Chance": 80, "Category": "PureChallengeGoal"},
+		{"Chance": 20, "Category": "Any"}
+	],
+	[
+		{"Chance": 50, "Category": "PureChallengeGoal"},
+		{"Chance": 50, "Category": "EnemyGroupChallenges"}
+	],
+	[
+		{"Chance": 50, "Category": "PureChallengeGoal"}
+	],
+	[
+		{"Chance": 50, "Category": "EnemyGroupChallenges"}
+	]
+]

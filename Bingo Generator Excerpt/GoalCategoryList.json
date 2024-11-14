@@ -1,0 +1,614 @@
+[
+	{
+		"Name": "None",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": 0,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "Any",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": 1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "Special",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": 2,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "LegacyDungeons",
+		"ExclusivityBuddies": ["LegacyDungeonSpecific"],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "LegacyDungeonSpecific",
+		"ExclusivityBuddies": ["LegacyDungeons", "LegacyMisc"],
+		"Chance": 8,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "LegacyMisc",
+		"ExclusivityBuddies": ["LegacyDungeonSpecific"],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Attributes",
+		"ExclusivityBuddies": [],
+		"Chance": 3,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "RuneLevel",
+		"ExclusivityBuddies": ["RuneCollection"],
+		"Chance": 10,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "RuneCollection",
+		"ExclusivityBuddies": ["RuneLevel"],
+		"Chance": 5,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "MinorDungeon",
+		"ExclusivityBuddies": ["MultipleMinorDungeons"],
+		"Chance": 50,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "MultipleMinorDungeons",
+		"ExclusivityBuddies": ["MinorDungeon", "Catacombs", "Caves"],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Catacombs",
+		"ExclusivityBuddies": ["MultipleMinorDungeons"],
+		"Chance": 40,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 4
+	},
+	{
+		"Name": "Caves",
+		"ExclusivityBuddies": ["MultipleMinorDungeons"],
+		"Chance": 40,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 4
+	},
+	{
+		"Name": "HerosGraves",
+		"ExclusivityBuddies": ["HerosGravesSpecific"],
+		"Chance": 8,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "HerosGravesSpecific",
+		"ExclusivityBuddies": ["HerosGraves"],
+		"Chance": 50,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LandmarkDungeons",
+		"ExclusivityBuddies": [],
+		"Chance": 25,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "Evergaols",
+		"ExclusivityBuddies": ["EvergaolsSpecific", "BossesEvergaol"],
+		"Chance": 25,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "EvergaolsSpecific",
+		"ExclusivityBuddies": ["Evergaols", "BossesEvergaol"],
+		"Chance": -1,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "BossesMisc",
+		"ExclusivityBuddies": [],
+		"Chance": 35,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "BossesSpecific",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "BossesMultiple",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "BossesOverworld",
+		"ExclusivityBuddies": ["BossesNight", "BossesMinorErdtree"],
+		"Chance": 10,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesNight",
+		"ExclusivityBuddies": ["BossesOverworld"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesUnderworld",
+		"ExclusivityBuddies": ["Underworld"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "BossesEvergaol",
+		"ExclusivityBuddies": ["Evergaols", "EvergaolsSpecific"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "BossesRuins",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesMinorErdtree",
+		"ExclusivityBuddies": ["BossesOverworld"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesLegacyDungeon",
+		"ExclusivityBuddies": ["LegacyDungeons", "LegacyDungeonSpecific", "BossesLegacyDungeonFinal"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "BossesLegacyDungeonFinal",
+		"ExclusivityBuddies": ["LegacyDungeons", "LegacyDungeonSpecific", "BossesLegacyDungeon"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "BossesMinorDungeon",
+		"ExclusivityBuddies": ["MinorDungeon", "MultipleMinorDungeons", "Catacombs", "Caves", "HerosGraves"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesCatacomb",
+		"ExclusivityBuddies": ["Catacombs", "MultipleMinorDungeons"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesCave",
+		"ExclusivityBuddies": ["Caves", "MultipleMinorDungeons"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "BossesHerosGrave",
+		"ExclusivityBuddies": ["HerosGraves", "MultipleMinorDungeons"],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "EnemyChallenges",
+		"ExclusivityBuddies": [],
+		"Chance": 20,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "EnemyGroupChallenges",
+		"ExclusivityBuddies": [],
+		"Chance": 20,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "NPC",
+		"ExclusivityBuddies": [],
+		"Chance": 15,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "PureChallengeGoal",
+		"ExclusivityBuddies": [],
+		"Chance": 40,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "Merchants",
+		"ExclusivityBuddies": [],
+		"Chance": 20,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "ItemChecks",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Cookbooks",
+		"ExclusivityBuddies": [],
+		"Chance": 4,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "SpiritAshItems",
+		"ExclusivityBuddies": [],
+		"Chance": 4,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "MaterialChecks",
+		"ExclusivityBuddies": [],
+		"Chance": 15,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "SpiritAshLevel",
+		"ExclusivityBuddies": [],
+		"Chance": 10,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "WeaponLevel",
+		"ExclusivityBuddies": [],
+		"Chance": 5,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "FlaskCharges",
+		"ExclusivityBuddies": [],
+		"Chance": 4,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "FlaskLevel",
+		"ExclusivityBuddies": [],
+		"Chance": 4,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "Location",
+		"ExclusivityBuddies": [],
+		"Chance": 35,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "Misc",
+		"ExclusivityBuddies": [],
+		"Chance": 50,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "Progression",
+		"ExclusivityBuddies": [],
+		"Chance": 10,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 1
+	},
+	{
+		"Name": "GreatRune",
+		"ExclusivityBuddies": [],
+		"Chance": 10,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Ruins",
+		"ExclusivityBuddies": [],
+		"Chance": 20,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Underworld",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "Deeproot",
+		"ExclusivityBuddies": ["Underworld"],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Mausoleum",
+		"ExclusivityBuddies": [],
+		"Chance": 11,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "MoonlightAltar",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "Evil",
+		"ExclusivityBuddies": [],
+		"Chance": -1,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 3
+	},
+	{
+		"Name": "LegacyRC",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LegacySC",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LegacyRL",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LegacyVM",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LegacyLD",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LegacyMH",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LegacyFA",
+		"ExclusivityBuddies": [],
+		"Chance": 30,
+		"ID": -1,
+		"SelfExclusive": true,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "LandOfShadow",
+		"ExclusivityBuddies": [],
+		"Chance": 50,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": true,
+		"MaxPerBoard": 25
+	},
+	{
+		"Name": "Gaols",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "RuinedForges",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 5
+	},
+	{
+		"Name": "LegacySK",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 2
+	},
+	{
+		"Name": "ScadutreeBlessing",
+		"ExclusivityBuddies": [],
+		"Chance": 0,
+		"ID": -1,
+		"SelfExclusive": false,
+		"CanReplaceAny": false,
+		"MaxPerBoard": 1
+	}
+]
