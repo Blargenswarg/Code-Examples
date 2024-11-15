@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <fstream>
 
-
 void convertSceneFbxToLRM(FbxScene* pScene, std::string filename);
 void convertContentFbxToLRM(FbxNode* pNode, std::string filename, std::vector<std::string>& convertedMeshes, std::vector<std::string>& meshesWithoutUniqueName);
 void convertMeshFbxToLRM(FbxNode* pNode, std::string filename);
@@ -13,7 +12,6 @@ bool copyFile(const char* source, const char* destination);
 void getAllJoints(Joint** finalJointsPtr, std::unordered_map<std::string, int>* boneIdxs, FbxNode* linkNode);
 void getAllKeyFrames(std::vector<float>* keyFrameTimes, int& endFrame, std::unordered_map<std::string, int>* boneIdxs, FbxNode* linkNode, FbxAnimLayer* animLayer);
 void getEndTime(double& endTime, FbxNode* linkNode, FbxAnimLayer* animLayer);
-//void getAnimationFrames(Animation* currentAnimation, FbxNode* linkNode, double animationStopTime, double frameRate);
 void getAnimationFrames(AnimationFrame* currentFrame, std::unordered_map<std::string, int>* boneIdxs, FbxNode* linkNode, fbxsdk::FbxTime* frameTime, FbxAnimEvaluator* eval);
 
 // Loops through all the nodes in the loaded scene and calls convertContentFbxToLRM() with them
@@ -103,22 +101,6 @@ void convertContentFbxToLRM(FbxNode* pNode, std::string filename, std::vector<st
 				convertMeshFbxToLRM(pNode, filename); // Convert it and write a file
 
 			break;
-
-			/*
-			case FbxNodeAttribute::eLight:     // If the type is light
-
-				std::cout << "--- Converting light: " << pNode->GetName() << " ---" << std::endl;
-
-				convertLightFbxToLRM(pNode, filename); // Convert it and write a file
-				break;
-
-			case FbxNodeAttribute::eCamera:     // If the type is camera
-
-				std::cout << "--- Converting camera: " << pNode->GetName() << " ---" << std::endl;
-
-				convertCameraFbxToLRC(pNode, filename); // Convert it and write a file
-				break;
-			*/
 		}
 	}
 
@@ -418,64 +400,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 	// ---- Get all normals ----
 	// -------------------------
 
-	// Debug printing of the mapping and refrence modes of the normals
-	/*std::cout << "Name: " << (std::string)mesh->GetName() << std::endl;
-
-	std::cout << "Normals mapping mode: ";
-	switch (leNormal->GetMappingMode())
-	{
-	case FbxGeometryElement::eByPolygonVertex:
-		std::cout << "eByPolygonVertex" << std::endl;
-		break;
-	case FbxGeometryElement::eByControlPoint:
-		std::cout << "eByControlPoint" << std::endl;
-		break;
-	default:
-		std::cout << "??????" << std::endl;
-		break; // other reference modes not shown here!
-	}
-	std::cout << "Normals reference mode: ";
-	switch (leNormal->GetReferenceMode())
-	{
-	case FbxGeometryElement::eDirect:
-		std::cout << "eDirect" << std::endl;
-		break;
-	case FbxGeometryElement::eIndexToDirect:
-		std::cout << "eIndexToDirect" << std::endl;
-		break;
-	default:
-		std::cout << "??????" << std::endl;
-		break; // other reference modes not shown here!
-	}
-	// And now tangents
-	std::cout << std::endl << "Tangents mapping mode: ";
-	switch (leTangent->GetMappingMode())
-	{
-	case FbxGeometryElement::eByPolygonVertex:
-		std::cout << "eByPolygonVertex" << std::endl;
-		break;
-	case FbxGeometryElement::eByControlPoint:
-		std::cout << "eByControlPoint" << std::endl;
-		break;
-	default:
-		std::cout << "??????" << std::endl;
-		break; // other reference modes not shown here!
-	}
-	std::cout << "Tangents reference mode: ";
-	switch (leTangent->GetReferenceMode())
-	{
-	case FbxGeometryElement::eDirect:
-		std::cout << "eDirect" << std::endl;
-		break;
-	case FbxGeometryElement::eIndexToDirect:
-		std::cout << "eIndexToDirect" << std::endl;
-		break;
-	default:
-		std::cout << "??????" << std::endl;
-		break; // other reference modes not shown here!
-	}
-	getchar();*/
-
 	switch (leNormal->GetMappingMode())
 	{
 	case FbxGeometryElement::eByControlPoint:
@@ -649,9 +573,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 	// ---- Calculate tangents and bitangents ----
 	// -------------------------------------------
 
-	// http://foundationsofgameenginedev.com/FGED2-sample.pdf
-	// https://answers.unity.com/questions/7789/calculating-tangents-vector4.html
-
 	float3* polyVertTang = new float3[vertNr];
 	float3* polyVertBiTang = new float3[vertNr];
 	// These are deleted after the vert and index buffers are done
@@ -747,16 +668,9 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 
 			// Now that the vertCombos have been covered it's time to calculate the tangents
 
-			
-			//const Point3D& p0 = vertexArray[i0];
-			//const Point3D& p1 = vertexArray[i1];
-			//const Point3D& p2 = vertexArray[i2];
 			if(vert < 3)
 				triPos[vert] = allPos[allVertCombos[vertexId1].f[0]];
 			
-			//const Point2D& w0 = texcoordArray[i0];
-			//const Point2D& w1 = texcoordArray[i1];
-			//const Point2D& w2 = texcoordArray[i2];
 			if (vert < 3)
 				triUv[vert] = allTexCoord[allVertCombos[vertexId1].f[1]];
 
@@ -765,10 +679,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 
 			vertexId1++;
 		}
-		//int32 i0 = triangleArray[k].index[0];
-		//int32 i1 = triangleArray[k].index[1];
-		//int32 i2 = triangleArray[k].index[2];
-
 		float3 e1 = triPos[1] - triPos[0];
 		float3 e2 = triPos[2] - triPos[0];
 		float x1 = triUv[1].f[0] - triUv[0].f[0];
@@ -787,17 +697,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 			vertexId2++;
 		}
 	}
-
-	// loop thro all normals
-	//for (int nrm = 0; nrm < nNr; nrm++)
-	//{
-	//	allNorm[nrm];	// I was working on how to actually access the tangents and binormals here, or if i need to rethink something
-	//	Vector3 t = tan1[a];
-	//	Vector3 tmp = (t - n * Vector3.Dot(n, t)).normalized;
-	//	tangents[a] = new Vector4(tmp.x, tmp.y, tmp.z);
-	//	tangents[a].w = (Vector3.Dot(Vector3.Cross(n, t), tan2[a]) & lt; 0.0f) ? -1.0f : 1.0f;
-	//	
-	//}
 
 	// ----------------------------
 	// ---- Save skeleton data ----
@@ -840,12 +739,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 				}
 		}
 		rootJointIdx = boneIdxs.at(rootLink->GetName());
-
-		//std::string rootName = rootLink->GetName(); 
-
-		//bool yUp = rootLink->GetScene()->GetGlobalSettings().GetAxisSystem() == FbxAxisSystem::MayaYUp;
-		//bool yRightHand = rootLink->GetScene()->GetGlobalSettings().GetAxisSystem().GetCoorSystem() == FbxAxisSystem::eRightHanded;
-		//bool yunits = rootLink->GetScene()->GetGlobalSettings().GetSystemUnit() == FbxSystemUnit::cm;
 
 		getAllJoints(&finalJoints, &boneIdxs, rootLink);
 
@@ -1102,24 +995,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 				}
 			}
 		}
-		/*
-		if (!animations.empty())
-		{
-			int diffCount = 0;
-			int c = 0;
-
-			for (int i = 0; i < animations.at(0).frames.size(); i++)
-			{
-				for (int u = 0; u < boneNr; u++)
-				{
-					c++;
-					if (u != rootJointIdx && !(animations.at(0).frames.at(i).jointTransforms[u].translation == animations.at(0).frames.at(0).jointTransforms[u].translation))
-						diffCount++;
-				}
-			}
-			int aeghazeg = 0;
-		}
-		*/
 
 		// -------------------------------------
 		// ---- Write the animation file(s) ----
@@ -1182,11 +1057,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 	// --------------------------------------------------
 	// ---- Build the vertex buffer and index buffer ----
 	// --------------------------------------------------
-
-	/*for (int delLater = 0; delLater < vertNr; delLater++)
-	{
-		std::cout << "bluh:	" << allVertCombos[delLater].print() << std::endl;
-	}*/
 	vertexId1 = 0;
 	for (int poly = 0; poly < polygonNr; poly++) // Loop for each polygon
 	{
@@ -1327,14 +1197,14 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 			vertexId1++;
 		}
 
-		if (vertCount == 4) // Turns out it's this easy to support quads :S
+		if (vertCount == 4) // Handle quads
 		{
-			if (!flipVertOrder) // CCW (i think)
+			if (!flipVertOrder) // CCW
 			{
 				(*indicesVectorPtr).push_back(addedIndices[0]);
 				(*indicesVectorPtr).push_back(addedIndices[2]);
 			}
-			else // CW (i think)
+			else // CW
 			{
 				(*indicesVectorPtr).push_back(addedIndices[3]);
 				(*indicesVectorPtr).push_back(addedIndices[1]);
@@ -1476,250 +1346,6 @@ void convertMeshFbxToLRM(FbxNode* pNode, std::string filename)
 	delete[] allTexCoord;
 
 	delete[] allVertCombos;
-
-
-
-
-
-	// --------------------------------------------------
-	// ---- Read and store material and texture data ----
-	// --------------------------------------------------
-
-	/*
-	DisplayString("\n\n-------------------------------------------------------------------");
-	DisplayString("---------------- MATERIAL AND TEXTURE OUTPUT START ----------------");
-	DisplayString("-------------------------------------------------------------------\n");
-
-	std::vector<MaterialDescription> materialDescriptions;
-
-	int materialCount = pNode->GetMaterialCount();
-
-	if (materialCount > 0)
-	{
-		FbxPropertyT<FbxDouble3> lKFbxDouble3;
-		FbxPropertyT<FbxDouble> lKFbxDouble1;
-
-		for (int lCount = 0; lCount < materialCount; lCount++)
-		{
-			materialDescriptions.push_back(MaterialDescription());
-
-			fbxsdk::FbxSurfaceMaterial* lMaterial = pNode->GetMaterial(lCount);
-
-			if (lMaterial->GetClassId().Is(fbxsdk::FbxSurfaceLambert::ClassId))
-			{
-				//// Material name
-				((std::string)lMaterial->GetName()).copy(materialDescriptions.at(lCount).materialName, 50);
-
-				// Ambient Color
-				lKFbxDouble3 = ((fbxsdk::FbxSurfaceLambert*)lMaterial)->Ambient;
-				for (size_t i = 0; i < 3; i++)
-					materialDescriptions.at(lCount).ambient[i] = lKFbxDouble3.Get()[i];
-
-				// Diffuse Color
-				lKFbxDouble3 = ((fbxsdk::FbxSurfaceLambert*)lMaterial)->Diffuse;
-				for (size_t i = 0; i < 3; i++)
-					materialDescriptions.at(lCount).diffuse[i] = lKFbxDouble3.Get()[i];
-
-				// Emissive
-				lKFbxDouble3 = ((fbxsdk::FbxSurfaceLambert*)lMaterial)->Emissive;
-				for (size_t i = 0; i < 3; i++)
-					materialDescriptions.at(lCount).emissive[i] = lKFbxDouble3.Get()[i];
-
-				// Opacity
-				lKFbxDouble1 = ((fbxsdk::FbxSurfaceLambert*)lMaterial)->TransparencyFactor;
-				materialDescriptions.at(lCount).opacity = 1.0 - lKFbxDouble1.Get();
-			}
-			else
-				DisplayString("Unknown type of Material");
-		}
-	}
-
-	materialDescriptions;
-	int xba = 9;
-
-	// Read texture data
-
-	std::string fullDiffuseTexturePath = "None";
-	std::string fullNormalTexturePath = "None";
-
-	FbxMesh* lMesh = (FbxMesh*)pNode->GetNodeAttribute();
-
-	int lMaterialIndex;
-	FbxProperty lProperty;
-	if (lMesh->GetNode() == NULL)
-	{
-		DisplayString("ERROR: Mesh was NULL while trying to read texture data");
-	}
-	else
-	{
-		int lNbMat = lMesh->GetNode()->GetSrcObjectCount<fbxsdk::FbxSurfaceMaterial>();
-		for (lMaterialIndex = 0; lMaterialIndex < lNbMat; lMaterialIndex++)
-		{
-			fbxsdk::FbxSurfaceMaterial* lMaterial = lMesh->GetNode()->GetSrcObject<fbxsdk::FbxSurfaceMaterial>(lMaterialIndex);
-			bool lDisplayHeader = true;
-
-			bool hasDiffuseTexture = false;
-			bool hasNormalTexture = false;
-
-			//go through all the possible textures
-			if (lMaterial)
-			{
-				int lTextureIndex;
-				FBXSDK_FOR_EACH_TEXTURE(lTextureIndex)
-				{
-					bool pDisplayHeader = true;
-
-					lProperty = lMaterial->FindProperty(FbxLayerElement::sTextureChannelNames[lTextureIndex]);
-					if (lProperty.IsValid())
-					{
-						int lTextureCount = lProperty.GetSrcObjectCount<FbxTexture>();
-
-						for (int j = 0; j < lTextureCount; ++j)
-						{
-							//no layered texture simply get on the property
-							FbxTexture* lTexture = lProperty.GetSrcObject<FbxTexture>(j);
-							if (lTexture)
-							{
-								FbxFileTexture* lFileTexture = FbxCast<FbxFileTexture>(lTexture);
-								FbxProceduralTexture* lProceduralTexture = FbxCast<FbxProceduralTexture>(lTexture);
-
-								// Check whether the texture is a diffuse or bump texture, and store it in the appropriate variable
-								if (lProperty.GetName() == "DiffuseColor")
-								{
-									//fbxsdk::FbxObject
-									((std::string)lTexture->GetName()).copy(materialDescriptions.at(lMaterialIndex).diffuseTextureName, 50);
-									if (lFileTexture)
-									{
-										fullDiffuseTexturePath = (char*)lFileTexture->GetFileName();
-										hasDiffuseTexture = true;
-									}
-
-								}
-								else if (lProperty.GetName() == "Bump")
-								{
-									((std::string)lTexture->GetName()).copy(materialDescriptions.at(lMaterialIndex).normalTextureName, 50);
-									if (lFileTexture)
-									{
-										fullNormalTexturePath = (char*)lFileTexture->GetFileName();
-										hasNormalTexture = true;
-									}
-								}
-							}
-						}
-					}//end if pProperty
-				}
-			}//end if(lMaterial)
-
-			// Copy the textures to the destination
-			if (hasDiffuseTexture)
-			{
-				indexBeforeFilename = fullDiffuseTexturePath.find_last_of("/") + 1;
-				std::string fileNameOnly = fullDiffuseTexturePath.substr(indexBeforeFilename, filename.length() - 4 - indexBeforeFilename);
-				copyFile(fullDiffuseTexturePath.c_str(), std::string(destinationPath + fileNameOnly).c_str());
-
-				fileNameOnly.copy(materialDescriptions.at(lMaterialIndex).diffuseTexturePath, 50);
-			}
-			if (hasNormalTexture)
-			{
-				indexBeforeFilename = fullNormalTexturePath.find_last_of("/") + 1;
-				std::string fileNameOnly = fullNormalTexturePath.substr(indexBeforeFilename, filename.length() - 4 - indexBeforeFilename);
-				copyFile(fullNormalTexturePath.c_str(), std::string(destinationPath + fileNameOnly).c_str());
-
-				fileNameOnly.copy(materialDescriptions.at(lMaterialIndex).normalTexturePath, 50);
-			}
-
-
-		}// end for lMaterialIndex
-	}
-
-	//for (auto& materialDescription : materialDescriptions)
-	//{
-	//	std::cout << std::endl << std::endl << "Material Description: Name: " << materialDescriptions.at(0).materialName;
-
-	//	std::cout << std::endl << "Ambient: ";
-	//	for (size_t i = 0; i < 3; i++)
-	//		std::cout << materialDescriptions.at(0).ambient[i] << "     ";
-
-	//	std::cout << std::endl << "Diffuse: ";
-	//	for (size_t i = 0; i < 3; i++)
-	//		std::cout << materialDescriptions.at(0).diffuse[i] << "     ";
-
-	//	std::cout << std::endl << "Emissive: ";
-	//	for (size_t i = 0; i < 3; i++)
-	//		std::cout << materialDescriptions.at(0).emissive[i] << "     ";
-
-	//	std::cout << std::endl << "Opacity: " << materialDescriptions.at(0).opacity;
-	//	std::cout << std::endl << "Diffuse Texture Name: " << materialDescriptions.at(0).diffuseTextureName;
-	//	std::cout << std::endl << "Diffuse Texture Path: " << materialDescriptions.at(0).diffuseTexturePath;
-	//	std::cout << std::endl << "Normal Texture Name: " << materialDescriptions.at(0).normalTextureName;
-	//	std::cout << std::endl << "Normal Texture Path: " << materialDescriptions.at(0).normalTexturePath;
-	//}
-
-	DisplayString("\n-------------------------------------------------------------------");
-	DisplayString("---------------- MATERIAL AND TEXTURE OUTPUT END ----------------");
-	DisplayString("-------------------------------------------------------------------\n\n");
-
-	// -------------------------
-	// ---- Write lrmat files ----
-	// -------------------------
-
-	for (auto& materialDescription : materialDescriptions)
-	{
-		std::string lrmatFilename;
-
-		lrmatFilename = destinationPath + materialDescription.materialName + ".lrmat";
-
-		std::cout << "Writing lrmat file..." << std::endl;
-		std::ofstream lrmatFile(lrmatFilename, std::ios::out | std::ios::binary);
-
-		lrmatFile.write((char*)&materialDescription, sizeof(MaterialDescription));
-
-		lrmatFile.close();
-	}
-
-	// Test read
-
-	//for (auto& materialDescription : materialDescriptions)
-	//{
-	//	MaterialDescription materialDescriptionRead;
-
-	//	std::string lrmatReadFilename = destinationPath + materialDescription.materialName + ".lrmat";
-
-	//	std::cout << std::endl << std::endl << "lrmatReadFilename: " << lrmatReadFilename;
-
-	//	std::ifstream lrmatFileRead(lrmatReadFilename, std::ios::in | std::ios::binary);
-
-	//	if (!lrmatFileRead)
-	//	{
-	//		lrmatFileRead.clear();
-	//		lrmatFileRead.close();
-	//		return;
-	//	}
-
-	//	lrmatFileRead.read(reinterpret_cast<char*>(&materialDescriptionRead), sizeof(MaterialDescription));
-
-	//	std::cout << std::endl << std::endl << "Material Description: Name: " << materialDescriptionRead.materialName;
-
-	//	std::cout << std::endl << "Ambient: ";
-	//	for (size_t i = 0; i < 3; i++)
-	//		std::cout << materialDescriptionRead.ambient[i] << "     ";
-
-	//	std::cout << std::endl << "Diffuse: ";
-	//	for (size_t i = 0; i < 3; i++)
-	//		std::cout << materialDescriptionRead.diffuse[i] << "     ";
-
-	//	std::cout << std::endl << "Emissive: ";
-	//	for (size_t i = 0; i < 3; i++)
-	//		std::cout << materialDescriptionRead.emissive[i] << "     ";
-
-	//	std::cout << std::endl << "Opacity: " << materialDescriptionRead.opacity;
-	//	std::cout << std::endl << "Diffuse Texture Name: " << materialDescriptionRead.diffuseTextureName;
-	//	std::cout << std::endl << "Diffuse Texture Path: " << materialDescriptionRead.diffuseTexturePath;
-	//	std::cout << std::endl << "Normal Texture Name: " << materialDescriptionRead.normalTextureName;
-	//	std::cout << std::endl << "Normal Texture Path: " << materialDescriptionRead.normalTexturePath;
-	//	std::cout << std::endl << std::endl;
-	//}
-	*/
 }
 
 void convertCameraFbxToLRC(FbxNode* pNode, std::string filename)
@@ -1918,25 +1544,6 @@ inline void getAllJoints(Joint** finalJointsPtr, std::unordered_map<std::string,
 
 	thisJoint.rotation = float4(linkNode->PreRotation.Get().mData[0], linkNode->PreRotation.Get().mData[1], linkNode->PreRotation.Get().mData[2], 0);
 
-	//thisJoint.tempPoseRotation = linkNode->EvaluateLocalTransform().GetQ();
-	// Debug prints
-	/*
-	std::cout << linkNode->GetName() << " idx: " << boneIdxs->at(linkNode->GetName()) << std::endl;
-	std::cout << " PreRotation: " << linkNode->PreRotation.Get().mData[0] << ", " << linkNode->PreRotation.Get().mData[1] << ", " << linkNode->PreRotation.Get().mData[2] << ", " << std::endl;
-	std::cout << " PostRotation: " << linkNode->PostRotation.Get().mData[0] << ", " << linkNode->PostRotation.Get().mData[1] << ", " << linkNode->PostRotation.Get().mData[2] << ", " << std::endl;
-	std::cout << " LclRotation: " << linkNode->LclRotation.Get().mData[0] << ", " << linkNode->LclRotation.Get().mData[1] << ", " << linkNode->LclRotation.Get().mData[2] << ", " << std::endl;
-	float3 lclRot = float3(linkNode->LclRotation.Get().mData);
-	std::cout << lclRot.print(" LclRotation: ") << std::endl;;
-	std::cout << float4(linkNode->EvaluateLocalTransform().GetR()).print(" EvaluateLocalTransform: ") << std::endl;;
-	float3 LocalTransf = float3(linkNode->LclRotation.Get().mData);
-	std::cout << LocalTransf.print(" EvaluateLocalTransform.GetR(): ") << std::endl;;
-	std::cout << float4(linkNode->EvaluateGlobalTransform().GetR()).print(" EvaluateGlobalTransform: ") << std::endl;
-	std::cout << float4(linkNode->GetGeometricRotation(fbxsdk::FbxNode::EPivotSet::eSourcePivot)).print(" GeometricRotation eSourcePivot: ") << std::endl;
-	std::cout << float4(linkNode->GetGeometricRotation(fbxsdk::FbxNode::EPivotSet::eDestinationPivot)).print(" GeometricRotation eDestinationPivot: ") ;
-	std::cout << float4(linkNode->EvaluateLocalTransform().GetQ()).print(" EvaluateLocalTransform Quaternion: ") << std::endl;
-	std::cout << std::endl;
-	*/
-
 	thisJoint.nrOfChildren = linkNode->GetChildCount();
 
 	if (thisJoint.nrOfChildren > MAX_CHILDREN_PER_JOINT)
@@ -2036,47 +1643,6 @@ inline void getEndTime(double& endTime, FbxNode* linkNode, FbxAnimLayer* animLay
 		getEndTime(endTime, child, animLayer); // Recursive call
 	}
 }
-/*
-inline void getAnimationFrames(Animation* currentAnimation, FbxNode* linkNode, double animationStopTime, double frameRate)
-{
-	FbxAnimEvaluator* eval = linkNode->GetAnimationEvaluator();
-
-	int counter1 = 0;
-
-	double frameRate = 30.0;
-	for (double f = 0; f <= animationStopTime; f += (1.0/ frameRate))
-	{
-		fbxsdk::FbxTime frameTime;
-		frameTime.SetSecondDouble(f);
-
-		AnimationFrame currentFrame;
-
-		// So i somehow forgot that each frame needs some kind of array with all the translations and rotations for all the joints
-		// preferable with the same indices as the jointindices.
-
-		currentFrame.timeStamp = f;
-
-		JointTransformValues values;
-
-		values.translation = eval->GetNodeLocalTransform(linkNode, frameTime).GetT();
-		values.rotationQuat = eval->GetNodeLocalTransform(linkNode, frameTime).GetQ();
-
-		currentFrame.jointTransforms.push_back(values);
-
-		currentAnimation->frames.push_back(currentFrame);
-
-		counter1++;
-	}
-
-	for (int c = 0; c < linkNode->GetChildCount(); c++)
-	{
-		FbxNode* child = linkNode->GetChild(c);
-
-	}
-
-	getAnimationFrames(Animation * currentAnimation, FbxNode * linkNode, double animationStopTime, double frameRate);
-}
-*/
 
 inline void getAnimationFrames(AnimationFrame* currentFrame, std::unordered_map<std::string, int>* boneIdxs, FbxNode* linkNode, fbxsdk::FbxTime* frameTime, FbxAnimEvaluator* eval)
 {

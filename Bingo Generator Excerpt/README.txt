@@ -6,9 +6,10 @@ The bingo generator creates a 5x5 bingo grid meant to be used in a race where pl
 
 All goals have categories, these can be exclusive on each bingo line. They can also have different chances of being choosen.
 
-All goals have difficulty tiers or ranges or tiers. The bingo board has a bunch of different settings for how the tiers can be arranged. 
+All goals have difficulty tiers or ranges of tiers. The bingo board has a bunch of different settings for how the tiers can be arranged. 
 The default is that each line add up to the same amount of tiers and that each tier appears once per line.
 
 The generator creates bingo boards that follow all of the rules in an optimized manner.
+
 
 The code is not testable without the larger program, which I will not include here.

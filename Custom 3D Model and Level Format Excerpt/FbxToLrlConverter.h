@@ -40,35 +40,12 @@ inline void convertSceneFbxToLevel(FbxScene* pScene, std::string filename)
 
 	FinalFilename = destinationPath + endOfFilename + ".lrl";
 
-	//std::cout << "destinationPath:	" << destinationPath << std::endl;
-	//std::cout << "endOfFilename:	" << endOfFilename << std::endl << std::endl;
-
 	std::ofstream myFile(FinalFilename, std::ios::out | std::ios::binary);
 
 	int sizeOfPackage = 0;
 	for (int i = 0; i < entities.size(); i++)
 	{
 		// Make one big char* package start with figuring out how big it should be.
-		/*
-		sizeOfPackage += sizeof(int);					// An int with the size of the name.
-		sizeOfPackage += entities.at(i).name.length() + 2;  // The name
-		//sizeOfPackage += sizeof(entities.at(i).name.c_str());  // The name
-		sizeOfPackage += sizeof(float) * 10;			// All the floats of the entity transform
-		sizeOfPackage += sizeof(bool);					// Phys: hasPhysics bool
-		if (entities.at(i).hasPhysics)
-		{
-			sizeOfPackage += sizeof(bool);					// Phys: isDynamic bool
-			sizeOfPackage += sizeof(GeometryType);			// Phys: type
-			sizeOfPackage += sizeof(int);					// Phys: physMatName size int
-			sizeOfPackage += entities.at(i).physMatName.length() + 2; // Phys: physMatName
-		}
-		sizeOfPackage += sizeof(int);					// An int with the number of components
-		for (levelComponent& comp : entities.at(i).components)
-		{
-			sizeOfPackage += sizeof(int);				// An int with the size of the data
-			sizeOfPackage += comp.sizeOfData;			// Size of the component data.
-		}
-		*/
 		sizeOfPackage += entities.at(i).sizeOfEntity;
 		for (levelComponent& comp : entities.at(i).components)
 		{
@@ -162,11 +139,6 @@ inline void convertSceneFbxToLevel(FbxScene* pScene, std::string filename)
 inline void convertContentFbxToLevel(FbxNode* pNode, std::string filename, std::vector<levelEntity>* entities, std::vector<levelPrefab>* prefabs)
 {
 	FbxNodeAttribute::EType lAttributeType;
-	
-	// I want to change it to:
-	// Check for transforms that start with ent_ if we find a mesh we check if it has a parent that is an ent, (tho we shouldn't find that cause we'll only loop thro the children
-	// that aren't ents) if the mesh is loose we make it into a simple meshcomponent entity, tho this won't be optimal we will allow it.
-	// When we find an ent, we start a process that is proper
 
 	if (pNode->GetNodeAttribute() == NULL)
 	{
@@ -291,7 +263,6 @@ inline void findComponentsInNode(FbxNode* pNode, levelEntity* entity, std::strin
 				else
 					newComp.type = ComponentType::INVALID;
 
-				// TODO: calculate the rest of the size of data
 				newComp.sizeOfData = sizeof(ComponentType) + sizeof(int) + compName.length() + 2;
 				
 				std::vector<FbxProperty> params;
@@ -315,12 +286,6 @@ inline void findComponentsInNode(FbxNode* pNode, levelEntity* entity, std::strin
 
 				entity->components.push_back(newComp);
 			}
-			
-			/*FbxProperty* p;
-			p->GetPropertyDataType().GetType();
-			FbxDataType::GetType();
-			EFbxType::eFbxString;
-			EFbxType::eFbxEnum;*/
 
 		}
 		else if (lAttributeType == FbxNodeAttribute::eMesh)
@@ -436,42 +401,6 @@ inline void prefabSetup(FbxNode* pNode, std::vector<levelPrefab>* prefabs)
 	// Look for all params and get their size, (this could be a function, it happens twice)
 	std::vector<FbxProperty> params;
 
-	/*
-	bool keepLooking = true;
-	int paramIdx = 1;
-	while (keepLooking)
-	{
-		FbxProperty compParam = pNode->FindProperty(std::string("param" + std::to_string(paramIdx)).c_str(), false);
-		if (compParam.IsValid())
-		{
-			std::string tempStr;
-
-			switch (compParam.GetPropertyDataType().GetType())
-			{
-			case fbxsdk::eFbxBool:		newPrefab.sizeOfData += sizeof(bool);   break;
-			case fbxsdk::eFbxInt:		newPrefab.sizeOfData += sizeof(int);    break;
-			case fbxsdk::eFbxFloat:		newPrefab.sizeOfData += sizeof(float);  break;
-			case fbxsdk::eFbxDouble:	newPrefab.sizeOfData += sizeof(float);  break;
-			case fbxsdk::eFbxDouble3:	newPrefab.sizeOfData += sizeof(float3); break;
-			case fbxsdk::eFbxEnum:		newPrefab.sizeOfData += sizeof(int);    break;
-			case fbxsdk::eFbxString:
-				tempStr = compParam.Get<FbxString>().Buffer();
-				newPrefab.sizeOfData += sizeOfStringInFile(tempStr);
-				break;
-			default:
-				assert(false);
-				break;
-			}
-
-			params.push_back(compParam);
-
-			paramIdx++;
-		}
-		else
-			keepLooking = false;
-	}
-	*/
-
 	saveParametersAndSize(pNode, &params, newPrefab.sizeOfData);
 
 	// Begin writing data to newPrefab
@@ -481,14 +410,6 @@ inline void prefabSetup(FbxNode* pNode, std::vector<levelPrefab>* prefabs)
 	int offset = 0;
 
 	// Always write type
-	/*
-	FbxProperty prefabTypeParam = pNode->FindProperty("prefabType", false);
-	if (prefabTypeParam.IsValid())
-		newPrefab.type = (PrefabType)prefabTypeParam.Get<int>();
-	else
-		newPrefab.type = PrefabType::SCORE;
-	writeDataToChar(newPrefab.data, newPrefab.type, offset);
-	*/
 	FbxProperty prefabTypeParam = pNode->FindProperty("prefabType", false);
 	int type;
 	if (prefabTypeParam.IsValid())
@@ -565,23 +486,8 @@ inline void meshCompSetup(FbxNode* pNode, levelEntity* entity, std::string filen
 			matNames[mat] = (std::string)pNode->GetMaterial(mat)->GetName();
 			
 			matNamesSize += sizeOfStringInFile(matNames[mat]);
-
-			
-
-			//pNode->GetMaterial(mat)->ShadingModel.
-			//std::string sm = pNode->GetMaterial(mat)->ShadingModel.Get().Buffer(); //.Get<FbxString>().Buffer();
-			//FbxProperty shaderParam = pNode->GetMaterial(mat)->FindProperty(std::string("ShaderProgram").c_str(), false);
-			//if (shaderParam.IsValid())
-			//{
-			//	int aseazehy = 0;
-			//}
 		}
 	}
-	/*for (int i = 0; i < materialCount; i++)
-	{
-		std::string srhrh = matNames[i];
-		int aseazehy = 0;
-	}*/
 
 	levelComponent meshComp;
 
@@ -608,13 +514,6 @@ inline void meshCompSetup(FbxNode* pNode, levelEntity* entity, std::string filen
 	{
 		writeStringToDataChar(meshComp.data, matNames[mat], offset);
 	}
-
-	//memcpy(meshComp.data + offset, &compNameSize, sizeof(int));
-	//offset += sizeof(int);
-	//memcpy(meshComp.data + offset, meshName.data(), compNameSize);
-	//offset += compNameSize;
-	//memcpy(meshComp.data + offset, meshPath.data(), compPathSize);							
-	//offset += compPathSize;
 
 	writeDataToChar(meshComp.data, hasParent, offset);
 	if (hasParent)
@@ -786,12 +685,3 @@ inline void saveParamsToChar(FbxNode* componentNode, FbxNode* transformNode, std
 		}
 	}
 }
-
-																														// What's left:
-																														// -(done) A bool for kinematics in the reader (Ask oskar why it don't work)
-																														// -(done) More init functions for components (ask edvin about rotAround. and tell him no tempstring)
-																														// -(done) Support light components
-																														// -(done) Remove nrOfParams
-																														// -(done, could be better) integrate the material system the lads made.
-																														// -(done, just warned for now) Mayyybe fix the hitboxes on offseted meshes, or maybe just warn about it.
-																														// -(done) JAG GLÖMDE PREFABS!!!
