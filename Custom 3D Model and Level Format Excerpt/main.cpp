@@ -1,11 +1,9 @@
 
 //#include "fbxStuff.h"
 #include "Utility.h"
-//#include "ObjToAbmConverter.h"
 #include "FbxToAbmConverter.h"
 #include "FbxToLrmConverter.h"
 #include "FbxToLrlConverter.h"
-//#include "ieuImport.h"
 
 #include <thread>
 
